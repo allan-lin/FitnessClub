@@ -4,6 +4,7 @@ package com.example.install.fitnessclub;
  * Created by Allan on 1/19/2017.
  */
 
+//This class create objects that represent exercise, responsible for the name and description
 public class Exercise {
     private String name;
     private String description;
@@ -13,11 +14,12 @@ public class Exercise {
         this.description = description;
     }
 
-
+    //toString method
     public String toString(){
         return getName();
     }
 
+    //getters and setters for the name and description
     public String getName() {
         return name;
     }

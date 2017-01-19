@@ -66,6 +66,7 @@ public class HoursFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_hours, container, false);
+        //checks if the params have values in them, if they do then set the TextView
         if(mParam1 != null){
             TextView text = (TextView) view.findViewById(R.id.day);
             text.setText(mParam1);

@@ -29,6 +29,7 @@ public class ClubHoursFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+    //variable store viewpaher and adapter
     private ViewPager viewPager;
     private SectionPagerAdapter sectionPagerAdapter;
 
@@ -70,17 +71,22 @@ public class ClubHoursFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_club_hours, container, false);
+        //create a adapter and link it to the fragmentManager
         sectionPagerAdapter = new SectionPagerAdapter(getChildFragmentManager());
         viewPager = (ViewPager) view.findViewById(R.id.hourcontent);
+        //set the adapter to the viewpager
         viewPager.setAdapter(sectionPagerAdapter);
         return view;
     }
 
+
     public class SectionPagerAdapter extends FragmentPagerAdapter {
+        //takes the fm as a parameter
         public SectionPagerAdapter(FragmentManager fm){
             super(fm);
         }
         public Fragment getItem(int position){
+            //adds the items as param to the new Fragment
             switch(position) {
                 case 0:
                     return HoursFragment.newInstance("Sunday", "Rest");
@@ -100,6 +106,7 @@ public class ClubHoursFragment extends Fragment {
                     return HoursFragment.newInstance("Sunday", "Rest");
             }
         }
+        //getCount method determines how many fragment will be returned
         public int getCount(){
             return 7;
         }

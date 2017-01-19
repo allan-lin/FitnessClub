@@ -17,12 +17,14 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 public class MainActivity extends AppCompatActivity
+        //implements all fragment will be using, the MainActivity hosts all the fragments pass the messages between them
         implements NavigationView.OnNavigationItemSelectedListener,
                     MainFragment.OnFragmentInteractionListener,
                     ExerciseFragment.OnFragmentInteractionListener,
                     ClubHoursFragment.OnFragmentInteractionListener,
                     HoursFragment.OnFragmentInteractionListener{
 
+    //add fragmentmanager
     FragmentManager fm = getSupportFragmentManager();
 
     @Override
@@ -34,6 +36,7 @@ public class MainActivity extends AppCompatActivity
 
         //check if the activity has already been created
         if(savedInstanceState == null){
+            //create fragment and host it
             FragmentTransaction tran = fm.beginTransaction();
             tran.replace(R.id.content_main, new MainFragment());
             tran.commit();
@@ -97,6 +100,7 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_home) {
+            //create the fragment and host them to right fragment
             FragmentTransaction tran = fm.beginTransaction();
             tran.replace(R.id.content_main, new MainFragment());
             tran.commit();
