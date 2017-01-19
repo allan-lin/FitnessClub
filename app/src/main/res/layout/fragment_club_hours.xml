@@ -5,9 +5,10 @@
     tools:context="com.example.install.fitnessclub.ClubHoursFragment">
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <android.support.v4.view.ViewPager
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:id="@+id/hourcontent">
+    </android.support.v4.view.ViewPager>
 
 </FrameLayout>

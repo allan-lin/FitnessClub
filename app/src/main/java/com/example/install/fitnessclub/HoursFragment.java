@@ -4,23 +4,21 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link ClubHoursFragment.OnFragmentInteractionListener} interface
+ * {@link HoursFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link ClubHoursFragment#newInstance} factory method to
+ * Use the {@link HoursFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ClubHoursFragment extends Fragment {
+public class HoursFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -29,12 +27,10 @@ public class ClubHoursFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-    private ViewPager viewPager;
-    private SectionPagerAdapter sectionPagerAdapter;
 
     private OnFragmentInteractionListener mListener;
 
-    public ClubHoursFragment() {
+    public HoursFragment() {
         // Required empty public constructor
     }
 
@@ -44,11 +40,11 @@ public class ClubHoursFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment ClubHoursFragment.
+     * @return A new instance of fragment HoursFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static ClubHoursFragment newInstance(String param1, String param2) {
-        ClubHoursFragment fragment = new ClubHoursFragment();
+    public static HoursFragment newInstance(String param1, String param2) {
+        HoursFragment fragment = new HoursFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -69,41 +65,16 @@ public class ClubHoursFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_club_hours, container, false);
-        sectionPagerAdapter = new SectionPagerAdapter(getChildFragmentManager());
-        viewPager = (ViewPager) view.findViewById(R.id.hourcontent);
-        viewPager.setAdapter(sectionPagerAdapter);
+        View view = inflater.inflate(R.layout.fragment_hours, container, false);
+        if(mParam1 != null){
+            TextView text = (TextView) view.findViewById(R.id.day);
+            text.setText(mParam1);
+        }
+        if(mParam2 != null){
+            TextView text = (TextView) view.findViewById(R.id.description);
+            text.setText(mParam2);
+        }
         return view;
-    }
-
-    public class SectionPagerAdapter extends FragmentPagerAdapter {
-        public SectionPagerAdapter(FragmentManager fm){
-            super(fm);
-        }
-        public Fragment getItem(int position){
-            switch(position) {
-                case 0:
-                    return HoursFragment.newInstance("Sunday", "Rest");
-                case 1:
-                    return HoursFragment.newInstance("Monday", "3pm - 6pm");
-                case 2:
-                    return HoursFragment.newInstance("Tuesday", "2pm - 6pm");
-                case 3:
-                    return HoursFragment.newInstance("Wednesday", "3pm - 6pm");
-                case 4:
-                    return HoursFragment.newInstance("Thursday", "3pm - 6pm");
-                case 5:
-                    return HoursFragment.newInstance("Friday", "2pm - 6pm");
-                case 6:
-                    return HoursFragment.newInstance("Saturday", "2pm - 4pm");
-                default:
-                    return HoursFragment.newInstance("Sunday", "Rest");
-            }
-        }
-        public int getCount(){
-            return 7;
-        }
-
     }
 
     // TODO: Rename method, update argument and hook method into UI event
