@@ -7,6 +7,12 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+import android.widget.TextView;
+
+import java.util.ArrayList;
 
 
 /**
@@ -26,6 +32,8 @@ public class ExerciseFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+    ListView list;
+    TextView exerciseDescriptionTextView;
 
     private OnFragmentInteractionListener mListener;
 
@@ -64,7 +72,43 @@ public class ExerciseFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_exercise, container, false);
+        View view = inflater.inflate(R.layout.fragment_exercise, container, false);
+
+        list = (ListView) view.findViewById(R.id.exerciselist);
+        final ArrayList<Exercise> exerciseslist = new ArrayList<Exercise>();
+        exerciseslist.add(new Exercise("Bench Press", "The bench press is an upper body strength training exercise that consists of pressing a weight upwards from a supine position."));
+        exerciseslist.add(new Exercise("Squats", "asd"));
+        exerciseslist.add(new Exercise("Deadlift", "asd"));
+        final CustomAdapter adapter = new CustomAdapter(getContext(), exerciseslist);
+        list.setAdapter(adapter);
+        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                exerciseDescriptionTextView = (TextView) view.findViewById(R.id.description);
+                if(exerciseDescriptionTextView.getText() == ""){exerciseDescriptionTextView.setText(((Exercise) list.getItemAtPosition(position)).getDescription());}
+                else{
+                    exerciseDescriptionTextView.setText("");
+                }
+            }
+        });
+        return view;
+    }
+
+    public class CustomAdapter extends ArrayAdapter<Exercise> {
+        public CustomAdapter(Context context, ArrayList<Exercise> items) {
+            super(context, 0, items);
+        }
+        public View getView(int position, View convertView, ViewGroup parent){
+            Exercise item = getItem(position);
+
+            if(convertView == null){
+                convertView = LayoutInflater.from(getContext()).inflate(R.layout.exercise_view, parent, false);
+            }
+            TextView name = (TextView) convertView.findViewById(R.id.name);
+            name.setText(item.getName());
+
+            return  convertView;
+        }
     }
 
     // TODO: Rename method, update argument and hook method into UI event
