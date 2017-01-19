@@ -77,8 +77,10 @@ public class ExerciseFragment extends Fragment {
         list = (ListView) view.findViewById(R.id.exerciselist);
         final ArrayList<Exercise> exerciseslist = new ArrayList<Exercise>();
         exerciseslist.add(new Exercise("Bench Press", "The bench press is an upper body strength training exercise that consists of pressing a weight upwards from a supine position."));
-        exerciseslist.add(new Exercise("Squats", "asd"));
-        exerciseslist.add(new Exercise("Deadlift", "asd"));
+        exerciseslist.add(new Exercise("Squats", "In strength training and fitness, the squat is a compound, full body exercise that trains primarily the muscles of the thighs, hips and buttocks, quadriceps femoris muscle (vastus lateralis, vastus medialis, vastus intermedius and rectus femoris), hamstrings, as well as strengthening the bones, ligaments and insertion of the tendons throughout the lower body."));
+        exerciseslist.add(new Exercise("DeadLift", "The deadlift is a weight training exercise in which a loaded barbell or bar is lifted off the ground to the hips, then lowered back to the ground. It is one of the three powerlifting exercises, along with the squat and bench press."));
+        exerciseslist.add(new Exercise("Snatch", "The snatch is the first of two lifts contested in the sport of weightlifting (also known as Olympic weightlifting) followed by the clean and jerk. The objective of the snatch is to lift the barbell from the ground to overhead in one continuous motion."));
+        exerciseslist.add(new Exercise("Clean and Jerk", "The clean and jerk is a composite of two weightlifting movements, most often performed with a barbell: the clean and the jerk. During the clean, the lifter moves the barbell from the floor to a racked position across the Deltoids, without resting fully on the Clavicles."));
         final CustomAdapter adapter = new CustomAdapter(getContext(), exerciseslist);
         list.setAdapter(adapter);
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
