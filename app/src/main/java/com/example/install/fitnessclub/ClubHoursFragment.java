@@ -10,6 +10,7 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 
 
 /**
@@ -76,6 +77,39 @@ public class ClubHoursFragment extends Fragment {
         viewPager = (ViewPager) view.findViewById(R.id.hourcontent);
         //set the adapter to the viewpager
         viewPager.setAdapter(sectionPagerAdapter);
+
+        //set the transformer
+        viewPager.setPageTransformer(true, new ZoomOutPageTransformer());
+
+        ImageButton leftButton = (ImageButton) view.findViewById(R.id.left_nav);
+        ImageButton rightButton = (ImageButton) view.findViewById(R.id.right_nav);
+
+        leftButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int location = viewPager.getCurrentItem();
+                if(location > 0) {
+                    location--;
+                    viewPager.setCurrentItem(location);
+                } else if (location == 0){
+                    viewPager.setCurrentItem(viewPager.getChildCount());
+                }
+            }
+        });
+
+        rightButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int location = viewPager.getCurrentItem();
+                location++;
+                if(location >= viewPager.getChildCount()+2) {
+                    location++;
+                    viewPager.setCurrentItem(0);
+                } else {
+                    viewPager.setCurrentItem(location);
+                }
+            }
+        });
         return view;
     }
 
@@ -89,28 +123,63 @@ public class ClubHoursFragment extends Fragment {
             //adds the items as param to the new Fragment
             switch(position) {
                 case 0:
-                    return HoursFragment.newInstance("Sunday", "Rest");
+                    return HoursFragment.newInstance("Chest",R.drawable.chest,"");
                 case 1:
-                    return HoursFragment.newInstance("Monday", "3pm - 6pm");
+                    return HoursFragment.newInstance("Back",R.drawable.back, "");
                 case 2:
-                    return HoursFragment.newInstance("Tuesday", "2pm - 6pm");
+                    return HoursFragment.newInstance("Shoulders",R.drawable.shoulders, "");
                 case 3:
-                    return HoursFragment.newInstance("Wednesday", "3pm - 6pm");
+                    return HoursFragment.newInstance("Arms",R.drawable.arms, "");
                 case 4:
-                    return HoursFragment.newInstance("Thursday", "3pm - 6pm");
-                case 5:
-                    return HoursFragment.newInstance("Friday", "2pm - 6pm");
-                case 6:
-                    return HoursFragment.newInstance("Saturday", "2pm - 4pm");
+                    return HoursFragment.newInstance("Legs",R.drawable.legs, "");
                 default:
-                    return HoursFragment.newInstance("Sunday", "Rest");
+                    return HoursFragment.newInstance("Chest",R.drawable.chest, "");
             }
         }
         //getCount method determines how many fragment will be returned
         public int getCount(){
-            return 7;
+            return 5;
         }
 
+    }
+
+    public class ZoomOutPageTransformer implements ViewPager.PageTransformer {
+        private static final float MIN_SCALE = 0.85f;
+        private static final float MIN_ALPHA = 0.5f;
+
+        public void transformPage(View view, float position) {
+            int pageWidth = view.getWidth();
+            int pageHeight = view.getHeight();
+
+            if (position < -1) { // [-Infinity,-1)
+                // This page is way off-screen to the left.
+                view.setAlpha(0);
+
+            } else if (position <= 1) { // [-1,1]
+                // Modify the default slide transition to shrink the page as well
+                float scaleFactor = Math.max(MIN_SCALE, 1 - Math.abs(position));
+                float vertMargin = pageHeight * (1 - scaleFactor) / 2;
+                float horzMargin = pageWidth * (1 - scaleFactor) / 2;
+                if (position < 0) {
+                    view.setTranslationX(horzMargin - vertMargin / 2);
+                } else {
+                    view.setTranslationX(-horzMargin + vertMargin / 2);
+                }
+
+                // Scale the page down (between MIN_SCALE and 1)
+                view.setScaleX(scaleFactor);
+                view.setScaleY(scaleFactor);
+
+                // Fade the page relative to its size.
+                view.setAlpha(MIN_ALPHA +
+                        (scaleFactor - MIN_SCALE) /
+                                (1 - MIN_SCALE) * (1 - MIN_ALPHA));
+
+            } else { // (1,+Infinity]
+                // This page is way off-screen to the right.
+                view.setAlpha(0);
+            }
+        }
     }
 
     // TODO: Rename method, update argument and hook method into UI event
