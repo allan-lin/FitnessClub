@@ -1,8 +1,11 @@
 package com.example.install.fitnessclub;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -14,7 +17,15 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        //implements all fragment will be using, the MainActivity hosts all the fragments pass the messages between them
+        implements NavigationView.OnNavigationItemSelectedListener,
+                    MainFragment.OnFragmentInteractionListener,
+                    ExerciseFragment.OnFragmentInteractionListener,
+                    ClubHoursFragment.OnFragmentInteractionListener,
+                    HoursFragment.OnFragmentInteractionListener{
+
+    //add fragmentmanager
+    FragmentManager fm = getSupportFragmentManager();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,6 +33,14 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        //check if the activity has already been created
+        if(savedInstanceState == null){
+            //create fragment and host it
+            FragmentTransaction tran = fm.beginTransaction();
+            tran.replace(R.id.content_main, new MainFragment());
+            tran.commit();
+        }
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -80,22 +99,27 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
-
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
+        if (id == R.id.nav_home) {
+            //create the fragment and host them to right fragment
+            FragmentTransaction tran = fm.beginTransaction();
+            tran.replace(R.id.content_main, new MainFragment());
+            tran.commit();
+        } else if (id == R.id.nav_exercises) {
+            FragmentTransaction tran = fm.beginTransaction();
+            tran.replace(R.id.content_main, new ExerciseFragment());
+            tran.commit();
+        } else if (id == R.id.nav_hours) {
+            FragmentTransaction tran = fm.beginTransaction();
+            tran.replace(R.id.content_main, new ClubHoursFragment());
+            tran.commit();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+    public void onFragmentInteraction(Uri uri){
+
+
     }
 }
