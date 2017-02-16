@@ -8,10 +8,12 @@ package com.example.install.fitnessclub;
 public class Exercise {
     private String name;
     private String description;
+    private String location;
 
-    public Exercise(String name, String description){
+    public Exercise(String name, String description, String location){
         this.name = name;
         this.description = description;
+        this.location = location;
     }
 
     //toString method
@@ -34,5 +36,13 @@ public class Exercise {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
     }
 }

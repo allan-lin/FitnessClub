@@ -1,6 +1,7 @@
 package com.example.install.fitnessclub;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -9,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -78,11 +80,11 @@ public class ExerciseFragment extends Fragment {
         //create an ArrayList for the exercise
         final ArrayList<Exercise> exerciseslist = new ArrayList<Exercise>();
         //adds the exercise to the array
-        exerciseslist.add(new Exercise("Bench Press", "The bench press is an upper body strength training exercise that consists of pressing a weight upwards from a supine position."));
-        exerciseslist.add(new Exercise("Squats", "In strength training and fitness, the squat is a compound, full body exercise that trains primarily the muscles of the thighs, hips and buttocks, quadriceps femoris muscle (vastus lateralis, vastus medialis, vastus intermedius and rectus femoris), hamstrings, as well as strengthening the bones, ligaments and insertion of the tendons throughout the lower body."));
-        exerciseslist.add(new Exercise("DeadLift", "The deadlift is a weight training exercise in which a loaded barbell or bar is lifted off the ground to the hips, then lowered back to the ground. It is one of the three powerlifting exercises, along with the squat and bench press."));
-        exerciseslist.add(new Exercise("Snatch", "The snatch is the first of two lifts contested in the sport of weightlifting (also known as Olympic weightlifting) followed by the clean and jerk. The objective of the snatch is to lift the barbell from the ground to overhead in one continuous motion."));
-        exerciseslist.add(new Exercise("Clean and Jerk", "The clean and jerk is a composite of two weightlifting movements, most often performed with a barbell: the clean and the jerk. During the clean, the lifter moves the barbell from the floor to a racked position across the Deltoids, without resting fully on the Clavicles."));
+        exerciseslist.add(new Exercise("Bench Press", "The bench press is an upper body strength training exercise that consists of pressing a weight upwards from a supine position.", "http://www.bodybuilding.com/fun/betteru9.htm"));
+        exerciseslist.add(new Exercise("Squats", "In strength training and fitness, the squat is a compound, full body exercise that trains primarily the muscles of the thighs, hips and buttocks, quadriceps femoris muscle (vastus lateralis, vastus medialis, vastus intermedius and rectus femoris), hamstrings, as well as strengthening the bones, ligaments and insertion of the tendons throughout the lower body.", "http://www.bodybuilding.com/content/how-to-squat-proper-techniques-for-a-perfect-squat.html"));
+        exerciseslist.add(new Exercise("DeadLift", "The deadlift is a weight training exercise in which a loaded barbell or bar is lifted off the ground to the hips, then lowered back to the ground. It is one of the three powerlifting exercises, along with the squat and bench press.", "http://www.bodybuilding.com/fun/how-to-deadlift-beginners-guide.html"));
+        exerciseslist.add(new Exercise("Snatch", "The snatch is the first of two lifts contested in the sport of weightlifting (also known as Olympic weightlifting) followed by the clean and jerk. The objective of the snatch is to lift the barbell from the ground to overhead in one continuous motion.", "http://www.bodybuilding.com/fun/learn-olympic-lifts-snatch-and-clean-and-jerk-progression-lifts.htm"));
+        exerciseslist.add(new Exercise("Clean and Jerk", "The clean and jerk is a composite of two weightlifting movements, most often performed with a barbell: the clean and the jerk. During the clean, the lifter moves the barbell from the floor to a racked position across the Deltoids, without resting fully on the Clavicles.", "http://www.bodybuilding.com/fun/learn-olympic-lifts-snatch-and-clean-and-jerk-progression-lifts.html"));
         final CustomAdapter adapter = new CustomAdapter(getContext(), exerciseslist);
         //add the adpter to thr listview
         list.setAdapter(adapter);
@@ -90,9 +92,21 @@ public class ExerciseFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 exerciseDescriptionTextView = (TextView) view.findViewById(R.id.description);
-                if(exerciseDescriptionTextView.getText() == ""){exerciseDescriptionTextView.setText(((Exercise) list.getItemAtPosition(position)).getDescription());}
+                TextView details = (TextView) view.findViewById(R.id.details);
+                ImageView chevron = (ImageView) view.findViewById(R.id.chevron);
+                if(exerciseDescriptionTextView.getText() != exerciseslist.get(position).getDescription()){
+                    exerciseDescriptionTextView.setText(((Exercise) list.getItemAtPosition(position)).getDescription());
+                    //update the text of the show more
+                    details.setText("Click to show less");
+                    //update the chevron image
+                    chevron.setImageResource(R.drawable.ic_expand_less_black_24dp);
+                }
                 else{
                     exerciseDescriptionTextView.setText("");
+                    //update the text of the show more
+                    details.setText("Click to show more");
+                    //update the chevron image
+                    chevron.setImageResource(R.drawable.ic_expand_more_black_24dp);
                 }
             }
         });
@@ -106,7 +120,7 @@ public class ExerciseFragment extends Fragment {
         }
         //The construct takes the context and ArrayList and runs the parents construct
         public View getView(int position, View convertView, ViewGroup parent){
-            Exercise item = getItem(position);
+            final Exercise item = getItem(position);
 
             if(convertView == null){
                 //create a new layout file for the exercises
@@ -114,6 +128,19 @@ public class ExerciseFragment extends Fragment {
             }
             TextView name = (TextView) convertView.findViewById(R.id.name);
             name.setText(item.getName());
+
+            ImageView image = (ImageView) convertView.findViewById(R.id.location);
+            image.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Uri webpage = Uri.parse(item.getLocation());
+                    Intent intent = new Intent(Intent.ACTION_VIEW, webpage);
+                    if(intent.resolveActivity(getActivity().getPackageManager()) != null) {
+                        startActivity(intent);
+                    }
+
+                }
+            });
 
             return  convertView;
         }
