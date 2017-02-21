@@ -1,6 +1,7 @@
 package com.example.install.fitnessclub;
 
 import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 /**
@@ -45,5 +46,21 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
     public DatabaseHandler(Context context) {
         super(context, DATABASAE_NAME, null, DATABASE_VERSION);
+    }
+
+    /**
+     * create table inside database
+     */
+    public void onCreate(SQLiteDatabase db){
+        db.execSQL(TABLE_EXERCISE);
+    }
+
+    /**
+     * when the database update delete the old table and recreate them
+     */
+    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_EXERCISE);
+        onCreate(db);
+
     }
 }
