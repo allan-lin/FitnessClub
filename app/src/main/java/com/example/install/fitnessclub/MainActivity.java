@@ -22,10 +22,12 @@ public class MainActivity extends AppCompatActivity
                     MainFragment.OnFragmentInteractionListener,
                     ExerciseFragment.OnFragmentInteractionListener,
                     ClubHoursFragment.OnFragmentInteractionListener,
-                    HoursFragment.OnFragmentInteractionListener{
+                    HoursFragment.OnFragmentInteractionListener,
+                    CreateExerciseFragment.OnFragmentInteractionListener{
 
     //add fragmentmanager
     FragmentManager fm = getSupportFragmentManager();
+    public static FloatingActionButton fab;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +44,7 @@ public class MainActivity extends AppCompatActivity
             tran.commit();
         }
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

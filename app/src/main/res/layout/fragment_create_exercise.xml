@@ -1,0 +1,64 @@
+<GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.install.fitnessclub.CreateExerciseFragment"
+    android:columnCount="2"
+    android:useDefaultMargins="true">
+
+    <TextView
+        android:text="Name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/nameLabel"
+        android:layout_column="0"
+        android:textSize="22sp" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:ems="10"
+        android:id="@+id/locationName"
+        android:layout_column="1" />
+
+    <TextView
+        android:text="Description"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/descriptionLabel"
+        android:layout_column="0"
+        android:textSize="22sp" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:ems="10"
+        android:id="@+id/locationDescription"
+        android:layout_column="1" />
+
+    <TextView
+        android:text="Website"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/latitudeLabel"
+        android:layout_column="0"
+        android:textSize="22sp" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:id="@+id/locationWebsite"
+        android:layout_column="1" />
+
+    <Button
+        android:text="Add Exercise"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/submitButton"
+        android:layout_columnSpan="2"
+        android:layout_column="0" />
+
+</GridLayout>

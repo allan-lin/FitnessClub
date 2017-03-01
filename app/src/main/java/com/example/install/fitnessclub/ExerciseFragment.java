@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +17,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+
+import static com.example.install.fitnessclub.MainActivity.fab;
 
 
 /**
@@ -69,16 +73,30 @@ public class ExerciseFragment extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
-
+    FragmentManager fm;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_exercise, container, false);
+        fm = getActivity().getSupportFragmentManager();
+        fab.setImageResource(R.drawable.ic_add_black_24dp);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentTransaction ft = fm.beginTransaction();
+                ft.addToBackStack(null);
+                ft.replace(R.id.content_main, new CreateExerciseFragment());
+                ft.commit();
+            }
+        });
 
         list = (ListView) view.findViewById(R.id.exerciselist);
+        //DatabaseHandler db = new DatabaseHandler(getContext());
         //create an ArrayList for the exercise
         final ArrayList<Exercise> exerciseslist = new ArrayList<Exercise>();
+        //final ArrayList<Exercise> exerciseslist = db.getAllExercises();
+        //db.closeDB();
         //adds the exercise to the array
         exerciseslist.add(new Exercise("Bench Press", "The bench press is an upper body strength training exercise that consists of pressing a weight upwards from a supine position.", "http://www.bodybuilding.com/fun/betteru9.htm"));
         exerciseslist.add(new Exercise("Squats", "In strength training and fitness, the squat is a compound, full body exercise that trains primarily the muscles of the thighs, hips and buttocks, quadriceps femoris muscle (vastus lateralis, vastus medialis, vastus intermedius and rectus femoris), hamstrings, as well as strengthening the bones, ligaments and insertion of the tendons throughout the lower body.", "http://www.bodybuilding.com/content/how-to-squat-proper-techniques-for-a-perfect-squat.html"));
@@ -110,6 +128,18 @@ public class ExerciseFragment extends Fragment {
                 }
             }
         });
+        list.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                DatabaseHandler db = new DatabaseHandler(getContext());
+                Exercise location = exerciseslist.get(position);
+                db.deleteExercise(location.getId());
+                db.closeDB();
+                exerciseslist.remove(position);
+                adapter.notifyDataSetChanged();
+                return false;
+            }
+        });
         return view;
     }
 
@@ -128,7 +158,6 @@ public class ExerciseFragment extends Fragment {
             }
             TextView name = (TextView) convertView.findViewById(R.id.name);
             name.setText(item.getName());
-
             ImageView image = (ImageView) convertView.findViewById(R.id.location);
             image.setOnClickListener(new View.OnClickListener() {
                 @Override
