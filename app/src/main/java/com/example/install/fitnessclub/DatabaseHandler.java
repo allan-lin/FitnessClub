@@ -16,7 +16,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     /**
      * Track version
      */
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 6;
 
     /**
      * Name
@@ -37,7 +37,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
      * Exercise table name
      */
     private static final String KEY_NAME = "name";
-    private static final String KEY_SET = "set";
+    private static final String KEY_SET = "description";
     private static final String KEY_REP = "rep";
 
     /**
@@ -45,8 +45,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
      */
 
     private static final String CREATE_EXERCISE_TABLE = "CREATE TABLE " + TABLE_EXERCISE + "("
-            + KEY_ID + "INTEGER PRIMARY KEY," + KEY_NAME + " TEXT," + KEY_SET + "TEXT, "
-            + KEY_REP + "TEXT " + ")";
+            + KEY_ID + " INTEGER PRIMARY KEY, " + KEY_NAME + " TEXT, " + KEY_SET + " TEXT, "
+            + KEY_REP + " TEXT " + ");";
 
     public DatabaseHandler(Context context) {
         super(context, DATABASAE_NAME, null, DATABASE_VERSION);
@@ -56,7 +56,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
      * create table inside database
      */
     public void onCreate(SQLiteDatabase db){
-        db.execSQL(TABLE_EXERCISE);
+        db.execSQL(CREATE_EXERCISE_TABLE);
     }
 
     /**

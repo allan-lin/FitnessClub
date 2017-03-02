@@ -80,7 +80,7 @@ public class CreateExerciseFragment extends Fragment {
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Exercise exercise = new Exercise(name.getText().toString(), description.getText().toString(), website.toString());
+                Exercise exercise = new Exercise(name.getText().toString(), description.getText().toString(), website.getText().toString());
                 DatabaseHandler db = new DatabaseHandler(getContext());
                 db.addExercise(exercise);
                 db.closeDB();
