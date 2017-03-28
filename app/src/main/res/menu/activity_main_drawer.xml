@@ -14,6 +14,10 @@
             android:id="@+id/nav_hours"
             android:icon="@drawable/ic_access_alarm_black_24dp"
             android:title="Muscle Groups" />
+        <item
+            android:id="@+id/nav_pic"
+            android:icon="@drawable/ic_camera_alt_black_24dp"
+            android:title="Add Photo" />
     </group>
 
     <item android:title="TBA">

@@ -2,6 +2,8 @@ package com.example.install.fitnessclub;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -13,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -40,6 +43,7 @@ public class ExerciseFragment extends Fragment {
     private String mParam2;
     ListView list;
     TextView exerciseDescriptionTextView;
+    LinearLayout galleryLayout;
 
     private OnFragmentInteractionListener mListener;
 
@@ -109,18 +113,23 @@ public class ExerciseFragment extends Fragment {
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                exerciseDescriptionTextView = (TextView) view.findViewById(R.id.description);
+                //exerciseDescriptionTextView = (TextView) view.findViewById(R.id.description);
+                galleryLayout = (LinearLayout) view.findViewById(R.id.galleryLayout);
                 TextView details = (TextView) view.findViewById(R.id.details);
                 ImageView chevron = (ImageView) view.findViewById(R.id.chevron);
-                if(exerciseDescriptionTextView.getText() != exerciseslist.get(position).getDescription()){
-                    exerciseDescriptionTextView.setText(((Exercise) list.getItemAtPosition(position)).getDescription());
+                //if(exerciseDescriptionTextView.getText() != exerciseslist.get(position).getDescription()){
+                    //exerciseDescriptionTextView.setText(((Exercise) list.getItemAtPosition(position)).getDescription());
+                if(galleryLayout.getVisibility() == View.GONE ||
+                        galleryLayout.getVisibility() == View.INVISIBLE){
+                    galleryLayout.setVisibility(View.VISIBLE);
                     //update the text of the show more
                     details.setText("Click to show less");
                     //update the chevron image
                     chevron.setImageResource(R.drawable.ic_expand_less_black_24dp);
                 }
                 else{
-                    exerciseDescriptionTextView.setText("");
+                    //exerciseDescriptionTextView.setText("");
+                    galleryLayout.setVisibility(View.GONE);
                     //update the text of the show more
                     details.setText("Click to show more");
                     //update the chevron image
@@ -156,6 +165,34 @@ public class ExerciseFragment extends Fragment {
                 //create a new layout file for the exercises
                 convertView = LayoutInflater.from(getContext()).inflate(R.layout.exercise_view, parent, false);
             }
+
+            //Grab the gallery layout associated with this location
+            galleryLayout =
+                    (LinearLayout) convertView.findViewById(R.id.galleryLayout);
+            //Make the gallery layout invisible
+            galleryLayout.setVisibility(View.GONE);
+            //only add items to the gallery if the gallery is empty
+            if(galleryLayout.getChildCount() == 0){
+                //Grab all the photos that match the id of the current location
+                DatabaseHandler db = new DatabaseHandler(getContext());
+                ArrayList<Picture> pics = db.getAllPictures(item.getId());
+                db.closeDB();
+                //Add those photos to the gallery
+                for(int i =0; i < pics.size(); i++){
+                    Bitmap image = BitmapFactory.decodeFile(pics.get(i).getResource());
+                    ImageView imageView = new ImageView(getContext());
+                    imageView.setImageBitmap(image);
+                    imageView.setAdjustViewBounds(true);
+                    galleryLayout.addView(imageView);
+                }
+            }
+
+            exerciseDescriptionTextView =
+                    (TextView) convertView.findViewById(R.id.description);
+            exerciseDescriptionTextView.setText(
+                    ((Exercise) list.getItemAtPosition(position)).getDescription()
+            );
+
             TextView name = (TextView) convertView.findViewById(R.id.name);
             name.setText(item.getName());
             ImageView image = (ImageView) convertView.findViewById(R.id.location);

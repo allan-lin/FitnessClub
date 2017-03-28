@@ -23,7 +23,8 @@ public class MainActivity extends AppCompatActivity
                     ExerciseFragment.OnFragmentInteractionListener,
                     ClubHoursFragment.OnFragmentInteractionListener,
                     HoursFragment.OnFragmentInteractionListener,
-                    CreateExerciseFragment.OnFragmentInteractionListener{
+                    CreateExerciseFragment.OnFragmentInteractionListener,
+                    AddPhotoFragment.OnFragmentInteractionListener{
 
     //add fragmentmanager
     FragmentManager fm = getSupportFragmentManager();
@@ -113,6 +114,10 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_hours) {
             FragmentTransaction tran = fm.beginTransaction();
             tran.replace(R.id.content_main, new ClubHoursFragment());
+            tran.commit();
+        } else if (id == R.id.nav_pic) {
+            FragmentTransaction tran = fm.beginTransaction();
+            tran.replace(R.id.content_main, new AddPhotoFragment());
             tran.commit();
         }
 

@@ -1,0 +1,46 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.install.fitnessclub.AddPhotoFragment"
+    android:orientation="vertical">
+
+    <!-- TODO: Update blank fragment layout -->
+    <TextView
+        android:text="Location Name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView2"
+        android:textSize="22sp"
+        android:textAlignment="center" />
+
+    <Spinner
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/locationSpinner" />
+
+    <TextView
+        android:text="Click the icon to add a photo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView3"
+        android:textSize="22sp"
+        android:textAlignment="center" />
+
+    <ImageView
+        android:layout_width="80dp"
+        android:id="@+id/cameraButton"
+        android:adjustViewBounds="false"
+        android:layout_height="80dp"
+        android:layout_gravity="center_horizontal"
+        app:srcCompat="@drawable/ic_camera_alt_black_24dp" />
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/galleryLayout"></LinearLayout>
+
+
+</LinearLayout>
